@@ -77,7 +77,7 @@ public:
 	virtual void AirMove( void );
 
 	virtual void PlayerRoughLandingEffects( float fvol );
-	bool m_bSpeedCropped;
+
 	virtual void CategorizePosition( void );
 
 	// Traces the player bbox as it is swept from start to end
@@ -132,7 +132,7 @@ void CPortalGameMovement::ProcessMovement( CBasePlayer *pPlayer, CMoveData *pMov
 	// Cropping movement speed scales mv->m_fForwardSpeed etc. globally
 	// Once we crop, we don't want to recursively crop again, so we set the crop
 	//  flag globally here once per usercmd cycle.
-	m_bSpeedCropped = false;
+	m_iSpeedCropped = false;
 
 	player = pPlayer;
 	mv = pMove;
