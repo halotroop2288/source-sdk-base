@@ -15,6 +15,11 @@
 #include "simtimer.h"
 #include "soundenvelope.h"
 
+// In HL2MP we need to inherit from  BaseMultiplayerPlayer!
+#if defined ( HL2MP )
+#include "basemultiplayerplayer.h"
+#endif
+
 class CAI_Squad;
 class CPropCombineBall;
 
@@ -75,10 +80,21 @@ public:
 //=============================================================================
 // >> HL2_PLAYER
 //=============================================================================
+#if defined ( HL2MP )
+class CHL2_Player : public CBaseMultiplayerPlayer
+#else
 class CHL2_Player : public CBasePlayer
+#endif
 {
 public:
+#if defined ( HL2MP )
+	DECLARE_CLASS( CHL2_Player, CBaseMultiplayerPlayer );
+#else
 	DECLARE_CLASS( CHL2_Player, CBasePlayer );
+#endif
+#ifdef MAPBASE_VSCRIPT
+	DECLARE_ENT_SCRIPTDESC();
+#endif
 
 	CHL2_Player();
 	~CHL2_Player( void );
@@ -106,6 +122,13 @@ public:
 	virtual void		StopLoopingSounds( void );
 	virtual void		Splash( void );
 	virtual void 		ModifyOrAppendPlayerCriteria( AI_CriteriaSet& set );
+
+#ifdef MAPBASE
+	void				ResetAnimation( void );
+	void				SetAnimation( PLAYER_ANIM playerAnim );
+
+	virtual const char *GetOverrideStepSound( const char *pszBaseStepSoundName );
+#endif
 
 	void				DrawDebugGeometryOverlays(void);
 
@@ -139,6 +162,11 @@ public:
 	
 	void SetFlashlightEnabled( bool bState );
 
+#ifdef MAPBASE
+	// Needed for logic_playerproxy
+	float GetFlashlightBattery();
+#endif
+
 	// Apply a battery
 	bool ApplyBattery( float powerMultiplier = 1.0 );
 
@@ -158,6 +186,17 @@ public:
 	CAI_BaseNPC *GetSquadCommandRepresentative();
 	int GetNumSquadCommandables();
 	int GetNumSquadCommandableMedics();
+
+#ifdef MAPBASE
+	void InputSquadForceSummon( inputdata_t &inputdata );
+	void InputSquadForceGoTo( inputdata_t &inputdata );
+
+	void InputEnableGeigerCounter( inputdata_t &inputdata );
+	void InputDisableGeigerCounter( inputdata_t &inputdata );
+
+	void InputShowSquadHUD( inputdata_t &inputdata );
+	void InputHideSquadHUD( inputdata_t &inputdata );
+#endif
 
 	// Locator
 	void UpdateLocatorPosition( const Vector &vecPosition );
@@ -194,6 +233,19 @@ public:
 	void				InputIgnoreFallDamageWithoutReset( inputdata_t &inputdata );
 	void				InputEnableFlashlight( inputdata_t &inputdata );
 	void				InputDisableFlashlight( inputdata_t &inputdata );
+
+#ifdef MAPBASE
+	void				InputAddArmor( inputdata_t &inputdata );
+	void				InputRemoveArmor( inputdata_t &inputdata );
+	void				InputSetArmor( inputdata_t &inputdata );
+
+	void				InputAddAuxPower( inputdata_t &inputdata );
+	void				InputRemoveAuxPower( inputdata_t &inputdata );
+	void				InputSetAuxPower( inputdata_t &inputdata );
+
+	void				InputTurnFlashlightOn( inputdata_t &inputdata );
+	void				InputTurnFlashlightOff( inputdata_t &inputdata );
+#endif
 
 	const impactdamagetable_t &GetPhysicsImpactDamageTable();
 	virtual int			OnTakeDamage( const CTakeDamageInfo &info );
@@ -241,6 +293,7 @@ public:
 	virtual	bool		IsHoldingEntity( CBaseEntity *pEnt );
 	virtual void		ForceDropOfCarriedPhysObjects( CBaseEntity *pOnlyIfHoldindThis );
 	virtual float		GetHeldObjectMass( IPhysicsObject *pHeldObject );
+	virtual CBaseEntity	*CHL2_Player::GetHeldObject( void );
 
 	virtual bool		IsFollowingPhysics( void ) { return (m_afPhysicsFlags & PFLAG_ONBARNACLE) > 0; }
 	void				InputForceDropPhysObjects( inputdata_t &data );

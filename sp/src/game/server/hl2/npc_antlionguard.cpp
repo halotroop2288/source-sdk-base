@@ -190,6 +190,17 @@ Activity ACT_ANTLIONGUARD_CHARGE_STOP;
 Activity ACT_ANTLIONGUARD_CHARGE_HIT;
 Activity ACT_ANTLIONGUARD_CHARGE_ANTICIPATION;
 
+#ifdef MAPBASE
+// Unused activities
+Activity ACT_ANTLIONGUARD_COVER_ENTER;
+Activity ACT_ANTLIONGUARD_COVER_LOOP;
+Activity ACT_ANTLIONGUARD_COVER_EXIT;
+Activity ACT_ANTLIONGUARD_COVER_ADVANCE;
+Activity ACT_ANTLIONGUARD_COVER_FLINCH;
+Activity ACT_ANTLIONGUARD_SNEAK;
+Activity ACT_ANTLIONGUARD_RUN_FULL;
+#endif
+
 // Anim events
 int AE_ANTLIONGUARD_CHARGE_HIT;
 int AE_ANTLIONGUARD_SHOVE_PHYSOBJECT;
@@ -1573,7 +1584,11 @@ public:
 			if ( pVictimBCC )
 			{
 				// Can only damage other NPCs that we hate
+#ifdef MAPBASE
+				if ( m_pAttacker->IRelationType( pEntity ) <= D_FR )
+#else
 				if ( m_pAttacker->IRelationType( pEntity ) == D_HT )
+#endif
 				{
 					pEntity->TakeDamage( info );
 					return true;
@@ -2729,7 +2744,11 @@ bool CNPC_AntlionGuard::HandleChargeImpact( Vector vecImpact, CBaseEntity *pEnti
 	}
 
 	// Hit anything we don't like
+#ifdef MAPBASE
+	if ( IRelationType( pEntity ) <= D_FR && ( GetNextAttack() < gpGlobals->curtime ) )
+#else
 	if ( IRelationType( pEntity ) == D_HT && ( GetNextAttack() < gpGlobals->curtime ) )
+#endif
 	{
 		EmitSound( "NPC_AntlionGuard.Shove" );
 
@@ -3366,6 +3385,11 @@ void CNPC_AntlionGuard::InputClearChargeTarget( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 Activity CNPC_AntlionGuard::NPC_TranslateActivity( Activity baseAct )
 {
+#ifdef MAPBASE
+	// Needed for VScript NPC_TranslateActiviy hook
+	baseAct = BaseClass::NPC_TranslateActivity( baseAct );
+#endif
+
 	//See which run to use
 	if ( ( baseAct == ACT_RUN ) && IsCurSchedule( SCHED_ANTLIONGUARD_CHARGE ) )
 		return (Activity) ACT_ANTLIONGUARD_CHARGE_RUN;
@@ -4676,6 +4700,15 @@ AI_BEGIN_CUSTOM_NPC( npc_antlionguard, CNPC_AntlionGuard )
 	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_PHYSHIT_FL )
 	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_PHYSHIT_RR )	
 	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_PHYSHIT_RL )		
+#ifdef MAPBASE
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_COVER_ENTER )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_COVER_LOOP )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_COVER_EXIT )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_COVER_ADVANCE )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_COVER_FLINCH )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_SNEAK )
+	DECLARE_ACTIVITY( ACT_ANTLIONGUARD_RUN_FULL )
+#endif
 	
 	//Adrian: events go here
 	DECLARE_ANIMEVENT( AE_ANTLIONGUARD_CHARGE_HIT )
