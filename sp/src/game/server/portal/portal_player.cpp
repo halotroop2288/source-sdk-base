@@ -412,7 +412,7 @@ void CPortal_Player::Spawn(void)
 	RemoveEffects( EF_NODRAW );
 	StopObserverMode();
 
-	GiveDefaultItems();
+	//GiveDefaultItems();
 
 	m_nRenderFX = kRenderNormal;
 

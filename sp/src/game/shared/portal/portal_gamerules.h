@@ -40,16 +40,11 @@ public:
 class CPortalGameRules : public CHalfLife2
 {
 public:
-	DECLARE_CLASS( CPortalGameRules, CSingleplayRules );
+	DECLARE_CLASS( CPortalGameRules, CHalfLife2 );
 
 	virtual bool	Init();
 	
-	virtual bool	ShouldCollide( int collisionGroup0, int collisionGroup1 );
 	virtual bool	ShouldUseRobustRadiusDamage(CBaseEntity *pEntity);
-#ifndef CLIENT_DLL
-	virtual bool	ShouldAutoAim( CBasePlayer *pPlayer, edict_t *target );
-	virtual float	GetAutoAimScale( CBasePlayer *pPlayer );
-#endif
 
 #ifdef CLIENT_DLL
 	virtual bool IsBonusChallengeTimeBased( void );
@@ -59,13 +54,10 @@ private:
 	// Rules change for the mega physgun
 	CNetworkVar( bool, m_bMegaPhysgun );
 
-#ifdef CLIENT_DLL
+	
+	DECLARE_NETWORKCLASS_NOBASE(); // This makes datatables able to access our private vars.
 
-	DECLARE_CLIENTCLASS_NOBASE(); // This makes datatables able to access our private vars.
-
-#else
-
-	DECLARE_SERVERCLASS_NOBASE(); // This makes datatables able to access our private vars.
+#ifndef CLIENT_DLL
 
 	CPortalGameRules();
 	virtual ~CPortalGameRules() {}
@@ -73,17 +65,7 @@ private:
 	virtual void			Think( void );
 
 	virtual bool			ClientCommand( CBaseEntity *pEdict, const CCommand &args );
-	virtual void			PlayerSpawn( CBasePlayer *pPlayer );
 
-	virtual void			InitDefaultAIRelationships( void );
-	virtual const char*		AIClassText(int classType);
-	virtual const char *GetGameDescription( void ) { return "Portal"; }
-
-	// Ammo
-	virtual void			PlayerThink( CBasePlayer *pPlayer );
-	virtual float			GetAmmoDamage( CBaseEntity *pAttacker, CBaseEntity *pVictim, int nAmmoType );
-
-	virtual bool			ShouldBurningPropsEmitLight();
 	
 public:
 
