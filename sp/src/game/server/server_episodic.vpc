@@ -296,13 +296,6 @@ $Project "Server (Portal)"
 				$File	"hl2\weapon_flaregun.h"
 			}
 		}
-
-		$Folder "SDK DLL"
-		{
-			$File	"sdk\sdk_brushentity.cpp"
-			$File	"sdk\sdk_logicalentity.cpp"
-			$File	"sdk\sdk_modelentity.cpp"
-		}
 		
 		$Folder	"Portal"
 		{
