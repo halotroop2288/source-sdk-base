@@ -977,11 +977,9 @@ CPolyhedron *ClipLinkedGeometry( GeneratePolyhedronFromPlanes_UnorderedPolygonLL
 						vPositionAsDouble[0] = pPoint->ptPosition.x;
 						vPositionAsDouble[1] = pPoint->ptPosition.y;
 						vPositionAsDouble[2] = pPoint->ptPosition.z;
-
 						pPoint->ptPosition.x = vPositionAsDouble[0] - (distAsDouble * vNormalAsDouble[0]);
 						pPoint->ptPosition.y = vPositionAsDouble[1] - (distAsDouble * vNormalAsDouble[1]);
 						pPoint->ptPosition.z = vPositionAsDouble[2] - (distAsDouble * vNormalAsDouble[2]);
-
 #if ( 0 && defined( _DEBUG ) )
 						float fDebugDist = vNormal.Dot( pPoint->ptPosition ) - fPlaneDist; //just for looking at in watch windows
 						AssertMsg( fabs( fDebugDist ) < fabs(fPointDist), "Projected point is further from plane than unprojected." );
@@ -1405,10 +1403,8 @@ CPolyhedron *ClipLinkedGeometry( GeneratePolyhedronFromPlanes_UnorderedPolygonLL
 			GeneratePolyhedronFromPlanes_Polygon *pWorkPolygon;			
 			GeneratePolyhedronFromPlanes_LineLL *pTestLine;
 
-#ifdef _DEBUG
 			GeneratePolyhedronFromPlanes_Polygon *pLastWorkPolygon = NULL;
 			GeneratePolyhedronFromPlanes_Point *pLastWorkPoint = NULL;
-#endif
 
 			if( pActivePolygonWalk )
 			{
@@ -1608,10 +1604,9 @@ CPolyhedron *ClipLinkedGeometry( GeneratePolyhedronFromPlanes_UnorderedPolygonLL
 
 					pWorkPolygon->bMissingASide = false; //repairs are finished
 
-#ifdef _DEBUG
 					pLastWorkPolygon = pWorkPolygon;
 					pLastWorkPoint = pWorkPoint;
-#endif
+
 					//move to the next point
 					pWorkPoint = pJoinLine->pPoints[0];
 					pLastLineLink = pJoinLine->pPointLineLinks[0];
@@ -1627,6 +1622,19 @@ CPolyhedron *ClipLinkedGeometry( GeneratePolyhedronFromPlanes_UnorderedPolygonLL
 					Assert_DumpPolyhedron( (pWorkPoint == pStartPoint) ||
 											(pGapLines[0]->pLine->bCut == false) || 
 											(pWorkPolygon->bMissingASide == true) ); //if we're not done fixing, and if the shared line was cut, the next polygon must be missing a side
+					// This just deletes
+					if (pWorkPolygon == pLastWorkPolygon)
+					{
+#ifdef _DEBUG
+						for (int i = DebugCutHistory.Count(); --i >= 0; )
+						{
+							if (DebugCutHistory[i])
+								DebugCutHistory[i]->Release();
+						}
+						DebugCutHistory.RemoveAll();
+#endif
+						return nullptr;
+					}
 				}
 				else
 				{
@@ -1668,10 +1676,8 @@ CPolyhedron *ClipLinkedGeometry( GeneratePolyhedronFromPlanes_UnorderedPolygonLL
 					pTestLine->pLine->pPolygons[pTestLine->iReferenceIndex] = pNewPolygon;
 					pTestLine->pLine->pPolygonLineLinks[pTestLine->iReferenceIndex] = pNewLineLink;
 
-#ifdef _DEBUG
 					pLastWorkPolygon = pWorkPolygon;
 					pLastWorkPoint = pWorkPoint;
-#endif
 
 					pWorkPoint = pTestLine->pLine->pPoints[pTestLine->iReferenceIndex];
 					pLastLineLink = pTestLine->pLine->pPointLineLinks[pTestLine->iReferenceIndex];
@@ -2289,5 +2295,3 @@ void DumpPlaneToGlView( const float *pPlane, float fGrayScale, const char *pszFi
 #endif
 }
 #endif
-
-
