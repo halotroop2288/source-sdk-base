@@ -209,12 +209,12 @@ static ConCommand ent_create_portal_metal_sphere("ent_create_portal_metal_sphere
 		BaseClass::Think();
 	}
 
-	ConVar sk_falldamage("sk_falldamage","0",FCVAR_REPLICATED);
+	ConVar mapbase_portal_falldamage("mapbase_portal_falldamage","0",FCVAR_REPLICATED);
 
 	float CPortalGameRules::FlPlayerFallDamage( CBasePlayer *pPlayer )
 	{
 		// No fall damage in Portal!
-		if (sk_falldamage.GetBool())
+		if (mapbase_portal_falldamage.GetBool())
 			return CHalfLife2::FlPlayerFallDamage(pPlayer);
 		else
 			return 0.0f;

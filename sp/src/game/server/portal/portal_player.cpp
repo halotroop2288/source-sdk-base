@@ -211,10 +211,10 @@ BEGIN_DATADESC( CPortal_Player )
 END_DATADESC()
 
 //PortalMod: Remember to set sv_regeneration in code! Replace that 1 with a zero if you want Regen in your mod
-ConVar sv_regeneration("sv_regeneration", "0", FCVAR_REPLICATED | FCVAR_CHEAT);
+ConVar mapbase_portal_regeneration("mapbase_portal_regeneration", "0", FCVAR_REPLICATED, "Enables regenerating health" );
 ConVar sv_regeneration_wait_time ("sv_regeneration_wait_time", "1.0", FCVAR_REPLICATED );
-ConVar sv_regeneration_rate("sv_regeneration_rate", "0.5", FCVAR_REPLICATED);
-ConVar sv_regeneration_type("sv_regeneration_type", "0", FCVAR_REPLICATED | FCVAR_CHEAT); //PortalMod: If regen is enabled, this set to 0 will have Ultra fast regen (portal style) and if 1 normal regen style
+ConVar mapbase_portal_regeneration_rate("mapbase_portal_regeneration_rate", "0.5", FCVAR_REPLICATED);
+ConVar mapbase_portal_regeneration_type("mapbase_portal_regeneration_type", "0", FCVAR_REPLICATED, "If regen is enabled, this set to 0 will have Ultra fast regen (portal style) and if 1 normal regen style"); 
 
 const char *g_pszChellModel = "models/player/chell.mdl";
 const char *g_pszPlayerModel = g_pszChellModel;
@@ -629,12 +629,12 @@ void CPortal_Player::PostThink( void )
 	SetLocalAngles( angles );
 
 	// Regenerate heath after 3 seconds
-	if (IsAlive() && GetHealth() < GetMaxHealth() && (sv_regeneration.GetInt() == 1) )
+	if (IsAlive() && GetHealth() < GetMaxHealth() && (mapbase_portal_regeneration.GetInt() == 1) )
 	{
 		// Color to overlay on the screen while the player is taking damage
 		color32 hurtScreenOverlay = {64,0,0,64};
 
-		if (gpGlobals->curtime > m_fTimeLastHurt + sv_regeneration_wait_time.GetFloat() && (sv_regeneration_type.GetInt() == 0))
+		if (gpGlobals->curtime > m_fTimeLastHurt + sv_regeneration_wait_time.GetFloat() && (mapbase_portal_regeneration_type.GetInt() == 0))
 		{
 			TakeHealth( 1, DMG_GENERIC );
 			m_bIsRegenerating = true;
@@ -644,10 +644,10 @@ void CPortal_Player::PostThink( void )
 				m_bIsRegenerating = false;
 			}
 		}
-		else if (gpGlobals->curtime > m_fTimeLastHurt + sv_regeneration_wait_time.GetFloat() && (sv_regeneration_type.GetInt() == 1))
+		else if (gpGlobals->curtime > m_fTimeLastHurt + sv_regeneration_wait_time.GetFloat() && (mapbase_portal_regeneration_type.GetInt() == 1))
 		{
 			//Regenerate based on rate, and scale it by the frametime
-			m_fRegenRemander += sv_regeneration_rate.GetFloat() * gpGlobals->frametime;
+			m_fRegenRemander += mapbase_portal_regeneration_rate.GetFloat() * gpGlobals->frametime;
 
 			if (m_fRegenRemander >= 1)
 			{
