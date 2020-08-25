@@ -129,5 +129,4 @@ game_sounds_manifest
 	"precache_file"		"scripts/npc_sounds_turret_portal.txt"
 	"precache_file"		"scripts/npc_sounds_rocket_turret.txt"
 	"precache_file"		"scripts/npc_sounds_glados_cores.txt"
-        "precache_file"		"scripts/portal_epic_edition_sounds.txt"
 }
