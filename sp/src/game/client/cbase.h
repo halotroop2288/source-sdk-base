@@ -55,4 +55,19 @@ struct studiohdr_t;
 #include "worldsize.h"
 #include "engine/ivmodelinfo.h"
 
+
+////////////////////////////////////////////////////////
+
+//STAVAAS RES MAIN
+
+//This will make it easier to switch between resolutions
+
+//#define _X360UI480p		1
+//#define _X360UI720p		1
+#define _X360UI1080p	1
+//#define _X360UI1440p	1
+//#define _X360UI2160p	1
+
+////////////////////////////////////////////////////////
+
 #endif // CBASE_H

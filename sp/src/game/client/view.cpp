@@ -71,12 +71,36 @@ bool ToolFramework_SetupEngineMicrophone( Vector &origin, QAngle &angles );
 extern ConVar default_fov;
 extern bool g_bRenderingScreenshot;
 
-#if !defined( _X360 )
-#define SAVEGAME_SCREENSHOT_WIDTH	180
-#define SAVEGAME_SCREENSHOT_HEIGHT	100
-#else
-#define SAVEGAME_SCREENSHOT_WIDTH	128
-#define SAVEGAME_SCREENSHOT_HEIGHT	128
+	//STAVAAS Res
+
+//480p
+#ifdef _X360UI480p
+	#define SAVEGAME_SCREENSHOT_WIDTH		107
+	#define SAVEGAME_SCREENSHOT_HEIGHT	61
+#endif
+
+//720p
+#ifdef _X360UI720p
+	#define SAVEGAME_SCREENSHOT_WIDTH		152
+	#define SAVEGAME_SCREENSHOT_HEIGHT	86
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	#define SAVEGAME_SCREENSHOT_WIDTH		228
+	#define SAVEGAME_SCREENSHOT_HEIGHT	129
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	#define SAVEGAME_SCREENSHOT_WIDTH		304
+	#define SAVEGAME_SCREENSHOT_HEIGHT	172
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	#define SAVEGAME_SCREENSHOT_WIDTH		456
+	#define SAVEGAME_SCREENSHOT_HEIGHT	258
 #endif
 
 #ifndef _XBOX

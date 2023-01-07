@@ -629,8 +629,8 @@ void CHudWeaponSelection::Paint()
 				for ( int slotPos = 0; slotPos <= lastSlotPos; ++slotPos )
 				{
 					// Offset the box position
-					xPos += ( m_flMediumBoxWide + 5 ) * xModifiers[ i ];
-					yPos += ( m_flMediumBoxTall + 5 ) * yModifiers[ i ];
+					xPos += ( m_flMediumBoxWide + 8 ) * xModifiers[ i ];
+					yPos += ( m_flMediumBoxTall + 8 ) * yModifiers[ i ];
 
 					int boxWide = m_flMediumBoxWide;
 					int boxTall = m_flMediumBoxTall;

@@ -294,24 +294,17 @@ void C_PropAirboat::UpdateViewAngles( C_BasePlayer *pLocalPlayer, CUserCmd *pCmd
 
 		if ( ( pCmd->mousedx != 0 || pCmd->mousedy != 0 ) || ( fabsf( m_flThrottle ) < 0.01f ) )
 		{
-			if ( IsX360() )
+			// Only reset this if there isn't an autoaim target!
+			C_BaseHLPlayer *pLocalHLPlayer = (C_BaseHLPlayer *)pLocalPlayer;
+			if ( pLocalHLPlayer )
 			{
-				// Only reset this if there isn't an autoaim target!
-				C_BaseHLPlayer *pLocalHLPlayer = (C_BaseHLPlayer *)pLocalPlayer;
-				if ( pLocalHLPlayer )
-				{
-					// Get the autoaim target.
-					CBaseEntity *pTarget = pLocalHLPlayer->m_HL2Local.m_hAutoAimTarget.Get();
+				// Get the autoaim target.
+				CBaseEntity *pTarget = pLocalHLPlayer->m_HL2Local.m_hAutoAimTarget.Get();
 
-					if( !pTarget )
-					{
-						bResetViewAngleTime = true;
-					}
+				if( !pTarget )
+				{
+					bResetViewAngleTime = true;
 				}
-			}
-			else
-			{
-				bResetViewAngleTime = true;
 			}
 		}
 

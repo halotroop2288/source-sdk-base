@@ -1053,7 +1053,7 @@ void Frame::OnThink()
 		if (m_bFadingOut)
 		{
 			// we're fading out, see if we're done so we can fully hide the window
-			if (GetAlpha() < ( IsX360() ? 64 : 1 ))
+			if (GetAlpha() < ( IsPC() ? 64 : 1 ))
 			{
 				FinishClose();
 			}
@@ -1064,7 +1064,7 @@ void Frame::OnThink()
 			m_bPreviouslyVisible = true;
 			
 			// fade in
-			if (IsX360())
+			if (IsPC())
 			{
 				SetAlpha(64);
 			}
@@ -2160,7 +2160,7 @@ void Frame::OnKeyCodeTyped(KeyCode code)
 	bool ctrl = (input()->IsKeyDown(KEY_LCONTROL) || input()->IsKeyDown(KEY_RCONTROL));
 	bool alt = (input()->IsKeyDown(KEY_LALT) || input()->IsKeyDown(KEY_RALT));
 	
-	if ( IsX360() )
+	if ( IsPC() )
 	{
 		vgui::Panel *pMap = FindChildByName( "ControllerMap" );
 		if ( pMap && pMap->IsKeyBoardInputEnabled() )

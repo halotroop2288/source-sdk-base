@@ -47,12 +47,13 @@ public:
 		// center the dialog
 		int wide, tall;
 		GetSize( wide, tall );
-		SetPos( ( w - wide ) / 2, ( h - tall ) / 2 );
+		SetPos( w * 0.092, h * 0.092 );
 	}
 
 	virtual void PaintBackground()
 	{
-		SetBgColor( Color(0, 0, 0, 128) );
+		SetBgColor( Color(31, 31, 31, 0) );
+		m_pLoadingLabel->SetFgColor( Color(100, 100, 100, 0) );
 		SetPaintBackgroundType( 2 );
 		BaseClass::PaintBackground();
 	}
@@ -88,9 +89,10 @@ CLoadingDiscPanel::CLoadingDiscPanel( vgui::VPANEL parent ) : BaseClass( NULL, "
 	LoadControlSettings( "resource/LoadingDiscPanel.res" );
 
 	// center the dialog
+	// Try to put it to top left corner where SAVED message pop ups
 	int wide, tall;
 	GetSize( wide, tall );
-	SetPos( ( w - wide ) / 2, ( h - tall ) / 2 );
+	SetPos( w * 0.1 ,  h * 0.1 );
 
 	m_ScreenSize[ 0 ] = w;
 	m_ScreenSize[ 1 ] = h;
@@ -162,7 +164,7 @@ public:
 		if ( bVisible && !m_pPauseDiscPanel )
 		{
 			m_pPauseDiscPanel = vgui::SETUP_PANEL(new CLoadingDiscPanel( m_hParent ) );
-			m_pPauseDiscPanel->SetText( "#gameui_paused" );
+			m_pPauseDiscPanel->SetText( " " );
 		}
 
 		if ( m_pPauseDiscPanel )

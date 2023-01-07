@@ -1688,21 +1688,21 @@ bool CHalfLife2::ShouldAutoAim( CBasePlayer *pPlayer, edict_t *target )
 //---------------------------------------------------------
 float CHalfLife2::GetAutoAimScale( CBasePlayer *pPlayer )
 {
-#ifdef _X360
+//#ifdef _X360
 	return 1.0f;
-#else
-	switch( GetSkillLevel() )
-	{
-	case SKILL_EASY:
-		return sk_autoaim_scale1.GetFloat();
-
-	case SKILL_MEDIUM:
-		return sk_autoaim_scale2.GetFloat();
-
-	default:
-		return 0.0f;
-	}
-#endif
+//#else
+//	switch( GetSkillLevel() )
+//	{
+//	case SKILL_EASY:
+//		return sk_autoaim_scale1.GetFloat();
+//
+//	case SKILL_MEDIUM:
+//		return sk_autoaim_scale2.GetFloat();
+//
+//	default:
+//		return 0.0f;
+//	}
+//#endif
 }
 
 //---------------------------------------------------------

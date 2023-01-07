@@ -845,19 +845,19 @@ void CConsolePanel::PerformLayout()
 		const int entryHeight = 24;
 		const int topHeight = 4;
 		const int entryInset = 4;
-		const int submitWide = 64;
-		const int submitInset = 7; // x inset to pull the submit button away from the frame grab
+		const int submitWide = 0;
+//		const int submitInset = 0; // x inset to pull the submit button away from the frame grab
 
 		m_pHistory->SetPos(inset, inset + topHeight); 
 		m_pHistory->SetSize(wide - (inset * 2), tall - (entryInset * 2 + inset * 2 + topHeight + entryHeight));
 		m_pHistory->InvalidateLayout();
 
-		int nSubmitXPos = wide - ( inset + submitWide + submitInset );
+		int nSubmitXPos = (wide - inset * 2) ;
 		m_pSubmit->SetPos( nSubmitXPos, tall - (entryInset * 2 + entryHeight));
 		m_pSubmit->SetSize( submitWide, entryHeight);
 		 
 		m_pEntry->SetPos( inset, tall - (entryInset * 2 + entryHeight) );
-		m_pEntry->SetSize( nSubmitXPos - entryInset - 2 * inset, entryHeight);
+		m_pEntry->SetSize( nSubmitXPos, entryHeight);
 	}
 	else
 	{

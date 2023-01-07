@@ -307,9 +307,9 @@ void CHudCredits::DrawOutroCreditsName( void )
 				if ( (int)pCredit->flYPos + ( iFontTall / 2 ) <= iTall / 2 )
 				{
 					m_bLastOneInPlace = true;
-					
+
 					// 360 certification requires that we not hold a static image too long.
-					m_flFadeTime = gpGlobals->curtime + ( IsConsole() ? 2.0f : 10.0f );
+					m_flFadeTime = gpGlobals->curtime + ( IsPC() ? 4.0f : 10.0f );
 				}
 			}
 			else
@@ -324,6 +324,8 @@ void CHudCredits::DrawOutroCreditsName( void )
 						{
 							pCredit->bActive = false;
 							engine->ClientCmd( "creditsdone" );
+							engine->ClientCmd("disconnect");
+							engine->ClientCmd("map_background background01");
 						}
 					}
 				}
@@ -424,11 +426,11 @@ void CHudCredits::DrawLogo( void )
 	}
 	else if ( hl2_episodic.GetBool() )
 	{
-		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "ClientTitleFont" );
+		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "CreditsLogo" );
 	}
 	else
 	{
-		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "WeaponIcons" );
+		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "CreditsLogo" );
 	}
 
 	vgui::HScheme scheme = vgui::scheme()->GetScheme( "ClientScheme" );

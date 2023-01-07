@@ -50,7 +50,7 @@ CHudCrosshair::CHudCrosshair( const char *pElementName ) :
 
 	m_pCrosshair = 0;
 
-	m_clrCrosshair = Color( 0, 0, 0, 0 );
+	m_clrCrosshair = Color( 255, 255, 255, 0 );
 
 	m_vecCrossHairOffsetAngle.Init();
 
@@ -120,13 +120,14 @@ bool CHudCrosshair::ShouldDraw( void )
 	else
 	{
 		bNeedsDraw = m_pCrosshair && 
-			crosshair.GetInt() &&
+			//crosshair.GetInt() &&
 			!engine->IsDrawingLoadingImage() &&
-			!engine->IsPaused() && 
+			!engine->IsPaused() &&
+			(!pPlayer->IsSuitEquipped() || g_pGameRules->IsMultiplayer()) &&
 			g_pClientMode->ShouldDrawCrosshair() &&
 			!( pPlayer->GetFlags() & FL_FROZEN ) &&
 			( pPlayer->entindex() == render->GetViewEntity() ) &&
-			!pPlayer->IsInVGuiInputMode() &&
+			//!pPlayer->IsInVGuiInputMode() &&
 			( pPlayer->IsAlive() ||	( pPlayer->GetObserverMode() == OBS_MODE_IN_EYE ) || ( cl_observercrosshair.GetBool() && pPlayer->GetObserverMode() == OBS_MODE_ROAMING ) );
 	}
 
@@ -260,7 +261,7 @@ void CHudCrosshair::Paint( void )
 
 	float flPlayerScale = 1.0f;
 #ifdef TF_CLIENT_DLL
-	Color clr( cl_crosshair_red.GetInt(), cl_crosshair_green.GetInt(), cl_crosshair_blue.GetInt(), 255 );
+	Color clr( cl_crosshair_red.GetInt(), cl_crosshair_green.GetInt(), cl_crosshair_blue.GetInt(), 225 );
 	flPlayerScale = cl_crosshair_scale.GetFloat() / 32.0f;  // the player can change the scale in the options/multiplayer tab
 #else
 	Color clr = m_clrCrosshair;
@@ -302,5 +303,5 @@ void CHudCrosshair::SetCrosshair( CHudTexture *texture, const Color& clr )
 //-----------------------------------------------------------------------------
 void CHudCrosshair::ResetCrosshair()
 {
-	SetCrosshair( m_pDefaultCrosshair, Color(255, 255, 255, 255) );
+	SetCrosshair( m_pDefaultCrosshair, Color(255, 255, 255, 225) );
 }

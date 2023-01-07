@@ -6,6 +6,7 @@
 
 #include "vgui_controls/MessageDialog.h"
 #include "vgui/ILocalize.h"
+#include <vgui/IInput.h>
 #include "vgui/ISurface.h"
 
 // NOTE: This has to be the last file included!
@@ -160,13 +161,13 @@ void CMessageDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 	}
 	else if ( m_nType & MD_OKCANCEL )
 	{
-		CreateButtonLabel( &m_Buttons[BTN_A], "#GameUI_Icons_A_BUTTON", "#GameUI_OK" );
-		CreateButtonLabel( &m_Buttons[BTN_B], "#GameUI_Icons_B_BUTTON", "#GameUI_Cancel" );
+		CreateButtonLabel( &m_Buttons[BTN_A], "#GameUI_Icons_B_BUTTON", "#GameUI_Cancel" );
+		CreateButtonLabel( &m_Buttons[BTN_B], "#GameUI_Icons_A_BUTTON", "#GameUI_OK" );
 	}
 	else if ( m_nType & MD_YESNO )
 	{
-		CreateButtonLabel( &m_Buttons[BTN_A], "#GameUI_Icons_A_BUTTON", "#GameUI_Yes" );
-		CreateButtonLabel( &m_Buttons[BTN_B], "#GameUI_Icons_B_BUTTON", "#GameUI_No" );
+		CreateButtonLabel( &m_Buttons[BTN_A], "#GameUI_Icons_B_BUTTON", "#GameUI_No" );
+		CreateButtonLabel( &m_Buttons[BTN_B], "#GameUI_Icons_A_BUTTON", "#GameUI_Yes" );
 	}
 
 	// count the buttons and add up their widths
@@ -188,7 +189,31 @@ void CMessageDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 
 	// position the buttons with even horizontal spacing
 	int xpos = 0;
-	int ypos = GetTall() - max( nButtonTall, nTextTall ) - m_ButtonMargin;
+
+
+	//STAVAAS Res
+
+//480p/720p
+#if defined(_X360UI480p) || defined(_X360UI720p)
+	int ypos = GetTall() - 48;
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	int ypos = GetTall() - 72;
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	int ypos = GetTall() - 96;
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	int ypos = GetTall() - 144;
+#endif
+
+
 	int nSpacing = ( GetWide() - nTotalWide ) / ( cButtons + 1 );
 	for ( int i = 0; i < MAX_BUTTONS; ++i )
 	{
@@ -259,9 +284,38 @@ void CMessageDialog::ApplySettings( KeyValues *inResourceData )
 
 	m_ButtonTextColor = inResourceData->GetColor( "buttontextcolor" );
 
-	m_FooterTall = inResourceData->GetInt( "footer_tall", 0 );
-	m_ButtonMargin = inResourceData->GetInt( "button_margin", 25 );
-	m_ButtonIconLabelSpace = inResourceData->GetInt( "button_separator", 10 );
+
+	//STAVAAS Res
+
+//480p/720p
+#if defined(_X360UI480p) || defined(_X360UI720p)
+	m_FooterTall = inResourceData->GetInt("footer_tall", 48);
+	m_ButtonMargin = inResourceData->GetInt("button_margin", 25);
+	m_ButtonIconLabelSpace = inResourceData->GetInt("button_separator", 10);
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	m_FooterTall = inResourceData->GetInt("footer_tall", 72);
+	m_ButtonMargin = inResourceData->GetInt("button_margin", 38);
+	m_ButtonIconLabelSpace = inResourceData->GetInt("button_separator", 15);
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	m_FooterTall = inResourceData->GetInt("footer_tall", 96);
+	m_ButtonMargin = inResourceData->GetInt("button_margin", 50);
+	m_ButtonIconLabelSpace = inResourceData->GetInt("button_separator", 20);
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	m_FooterTall = inResourceData->GetInt( "footer_tall", 144 );
+	m_ButtonMargin = inResourceData->GetInt( "button_margin", 75 );
+	m_ButtonIconLabelSpace = inResourceData->GetInt( "button_separator", 30 );
+#endif
+
+
 	m_ActivityIndent = inResourceData->GetInt( "activity_indent", 0 );
 }
 
@@ -310,10 +364,12 @@ void CMessageDialog::OnKeyCodePressed( vgui::KeyCode code )
 	switch ( GetBaseButtonCode( code ) )
 	{
 	case KEY_XBUTTON_A:
+	case KEY_ENTER:
 		DoCommand( BTN_A );
 		break;
 
 	case KEY_XBUTTON_B:
+	case KEY_BACKSPACE:
 		DoCommand( BTN_B );
 		break;
 
@@ -327,6 +383,7 @@ void CMessageDialog::OnKeyCodePressed( vgui::KeyCode code )
 //-----------------------------------------------------------------------------
 void CMessageDialog::PaintBackground( void )
 {
+
 	int wide, tall;
 	GetSize( wide, tall );
 
@@ -349,11 +406,33 @@ void CMessageDialog::PaintBackground( void )
 	// offset the inset by title
 	int titleX, titleY, titleWide, titleTall;
 	m_pTitle->GetBounds( titleX, titleY, titleWide, titleTall );	
-	int y = titleY + titleTall;
+	// int y = titleY + titleTall;
 
 	// draw an inset
 	Color darkColor;
 	darkColor.SetColor( 0.70f * (float)col.r(), 0.70f * (float)col.g(), 0.70f * (float)col.b(), col.a() );
 	vgui::surface()->DrawSetColor( darkColor );
-	vgui::surface()->DrawFilledRect( 8, y, wide - 8, tall - 8 );
+
+	//STAVAAS Res
+
+//480p/720p
+#if defined(_X360UI480p) || defined(_X360UI720p)
+	vgui::surface()->DrawFilledRect(8, 35, wide - 8, tall - 8);
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	vgui::surface()->DrawFilledRect(12, 54, wide - 12, tall - 12);
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	vgui::surface()->DrawFilledRect(16, 70, wide - 16, tall - 16);
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	vgui::surface()->DrawFilledRect(24, 108, wide - 24, tall - 24);
+#endif
+
 }

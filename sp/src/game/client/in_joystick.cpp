@@ -484,7 +484,7 @@ void CInput::Joystick_Advanced(void)
 		if ( Q_stricmp( joy_name.GetString(), "joystick") != 0 )
 		{
 			// notify user of advanced controller
-			Msg( "Using joystick '%s' configuration\n", joy_name.GetString() );
+			Msg( "Using controller '%s' configuration\n", joy_name.GetString() );
 		}
 
 		// advanced initialization here

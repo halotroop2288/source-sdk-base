@@ -1067,15 +1067,15 @@ bool CHL2GameMovement::LadderMove( void )
 			return false;
 		}
 
-		bool ishorizontal = fabs( topPosition.z - bottomPosition.z ) < 64.0f ? true : false;
+		bool ishorizontal = fabs(topPosition.z - bottomPosition.z) < 64.0f ? true : false;
 
 		float changeover = ishorizontal ? 0.0f : 0.3f;
 
 		float factor = 1.0f;
-		if ( velocity.z >= 0 )
+		if (velocity.z >= 0)
 		{
-			float dotTop = ladderUp.Dot( velocity );
-			if ( dotTop < -changeover )
+			float dotTop = ladderUp.Dot(velocity);
+			if (dotTop < -changeover)
 			{
 				// Aimed at bottom
 				factor = -1.0f;
@@ -1083,22 +1083,22 @@ bool CHL2GameMovement::LadderMove( void )
 		}
 		else
 		{
-			float dotBottom = -ladderUp.Dot( velocity );
-			if ( dotBottom > changeover )
+			float dotBottom = -ladderUp.Dot(velocity);
+			if (dotBottom > changeover)
 			{
 				factor = -1.0f;
 			}
 		}
 
 #ifdef _XBOX
-		if( sv_ladders_useonly.GetBool() )
+		if (sv_ladder_useonly.GetBool())
 		{
 			// Stick up climbs up, stick down climbs down. No matter which way you're looking.
-			if ( mv->m_nButtons & IN_FORWARD )
+			if (mv->m_nButtons & IN_FORWARD)
 			{
 				factor = 1.0f;
 			}
-			else if( mv->m_nButtons & IN_BACK )
+			else if (mv->m_nButtons & IN_BACK)
 			{
 				factor = -1.0f;
 			}

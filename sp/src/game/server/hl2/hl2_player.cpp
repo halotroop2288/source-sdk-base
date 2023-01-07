@@ -868,7 +868,7 @@ void CHL2_Player::PreThink(void)
 	UpdateWeaponPosture();
 
 	// Disallow shooting while zooming
-	if ( IsX360() )
+	if ( IsPC() )
 	{
 		if ( IsZooming() )
 		{
@@ -2498,7 +2498,7 @@ void CHL2_Player::GetAutoaimVector( autoaim_params_t &params )
 {
 	BaseClass::GetAutoaimVector( params );
 
-	if ( IsX360() )
+	if ( IsPC() )
 	{
 		if( IsInAVehicle() )
 		{

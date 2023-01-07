@@ -7774,7 +7774,7 @@ Panel* Panel::NavigateBack()
 //-----------------------------------------------------------------------------
 void Panel::NavigateTo()
 {
-	if ( IsX360() )
+	if ( IsPC() )
 	{
 		RequestFocus( 0 );
 	}

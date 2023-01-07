@@ -1925,10 +1925,7 @@ void CBaseCombatCharacter::Weapon_Drop( CBaseCombatWeapon *pWeapon, const Vector
 			pWeapon->m_iClip2 = pWeapon->GetDefaultClip2();
 		}
 
-		if ( IsXbox() )
-		{
 			pWeapon->AddEffects( EF_ITEM_BLINK );
-		}
 	}
 
 	if ( IsPlayer() )

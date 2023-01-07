@@ -1660,7 +1660,7 @@ void CPropAirboat::FireGun( )
 	Vector vecEyeDirection, vecEyePosition;
 	if ( !m_bUnableToFire )
 	{
-		if ( IsX360() )
+		if ( IsPC() )
 		{
 			GetAttachment( m_nGunBarrelAttachment, vecEyePosition, &vecEyeDirection );
 		}

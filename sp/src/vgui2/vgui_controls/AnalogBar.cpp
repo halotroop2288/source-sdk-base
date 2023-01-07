@@ -24,8 +24,33 @@ using namespace vgui;
 DECLARE_BUILD_FACTORY( AnalogBar );
 
 
-#define ANALOG_BAR_HOME_SIZE 4
-#define ANALOG_BAR_HOME_GAP 2
+	//STAVAAS Res
+
+//480p/720p
+#if defined(_X360UI480p) || defined(_X360UI720p)
+	#define ANALOG_BAR_HOME_SIZE 4
+	#define ANALOG_BAR_HOME_GAP 2
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	#define ANALOG_BAR_HOME_SIZE 6
+	#define ANALOG_BAR_HOME_GAP 3
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	#define ANALOG_BAR_HOME_SIZE 8
+	#define ANALOG_BAR_HOME_GAP 4
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	#define ANALOG_BAR_HOME_SIZE 12
+	#define ANALOG_BAR_HOME_GAP 6
+#endif
+
+
 #define ANALOG_BAR_LESS_TALL ( ANALOG_BAR_HOME_SIZE + ANALOG_BAR_HOME_GAP )
 
 

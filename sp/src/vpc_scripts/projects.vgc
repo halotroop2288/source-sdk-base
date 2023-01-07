@@ -24,6 +24,11 @@ $Project "fgdlib"
 	"fgdlib\fgdlib.vpc" [$WIN32]
 }
 
+$Project "GameUI"
+{
+	"gameui\GameUI.vpc" [$WIN32||$X360]
+}
+
 $Project "game_shader_dx9"
 {
 	"materialsystem\stdshaders\game_shader_dx9_hl2.vpc" [$HL2]

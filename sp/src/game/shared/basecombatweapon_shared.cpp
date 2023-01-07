@@ -186,10 +186,7 @@ void CBaseCombatWeapon::Spawn( void )
 	}
 
 #if !defined( CLIENT_DLL )
-	if( IsX360() )
-	{
-		AddEffects( EF_ITEM_BLINK );
-	}
+	AddEffects( EF_ITEM_BLINK );
 
 	FallInit();
 	SetCollisionGroup( COLLISION_GROUP_WEAPON );
@@ -877,7 +874,7 @@ void CBaseCombatWeapon::DisplayAltFireHudHint()
 	m_iAltFireHudHintCount++;
 	m_bAltFireHudHintDisplayed = true;
 	m_flHudHintMinDisplayTime = gpGlobals->curtime + MIN_HUDHINT_DISPLAY_TIME;
-#endif//CLIENT_DLL
+#endif CLIENT_DLL
 }
 
 //-----------------------------------------------------------------------------
@@ -1610,7 +1607,7 @@ void CBaseCombatWeapon::ItemPreFrame( void )
 
 #ifndef CLIENT_DLL
 #ifndef HL2_EPISODIC
-	if ( IsX360() )
+	if ( IsPC() )
 #endif
 	{
 		// If we haven't displayed the hint enough times yet, it's time to try to 

@@ -2294,7 +2294,8 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 				}
 				else
 				{
-					mat_software_aa_strength.SetValue( 0.0f );
+					mat_software_aa_strength.SetValue( 1.0f );
+					mat_software_aa_quality.SetValue( 1 );
 				}
 			}
 
@@ -2307,14 +2308,14 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 				}
 				else
 				{
-					mat_software_aa_strength_vgui.SetValue( 1.0f );
+					mat_software_aa_strength_vgui.SetValue( 2.0f );
 				}
 			}
 
 			float flAAStrength;
 
 			// We do a second AA blur pass over the TF intro menus. use mat_software_aa_strength_vgui there instead
-			if ( IsX360() && bPostVGui )
+			if ( bPostVGui )
 			{
 				flAAStrength = mat_software_aa_strength_vgui.GetFloat();
 			}
@@ -2324,7 +2325,7 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 			}
 
 			// bloom, software-AA and colour-correction (applied in 1 pass, after generation of the bloom texture)
-			bool  bPerformSoftwareAA	= IsX360() && ( engine->GetDXSupportLevel() >= 90 ) && ( flAAStrength != 0.0f );
+			bool  bPerformSoftwareAA	= ( engine->GetDXSupportLevel() >= 90 ) && ( flAAStrength != 0.0f );
 			bool  bPerformBloom			= !bPostVGui && ( flBloomScale > 0.0f ) && ( engine->GetDXSupportLevel() >= 90 );
 			bool  bPerformColCorrect	= !bPostVGui && 
 										  ( g_pMaterialSystemHardwareConfig->GetDXSupportLevel() >= 90) &&

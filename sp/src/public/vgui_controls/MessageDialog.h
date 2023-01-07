@@ -11,6 +11,20 @@
 #pragma once
 #endif
 
+////////////////////////////////////////////////////////
+
+//STAVAAS RES MAIN
+
+//This will make it easier to switch between resolutions
+
+//#define _X360UI480p		1
+//#define _X360UI720p		1
+#define _X360UI1080p	1
+//#define _X360UI1440p	1
+//#define _X360UI2160p	1
+
+////////////////////////////////////////////////////////
+
 // styles
 #define MD_WARNING				0x0001
 #define MD_ERROR				0x0002

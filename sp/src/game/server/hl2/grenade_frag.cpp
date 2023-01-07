@@ -306,7 +306,7 @@ void CGrenadeFrag::OnPhysGunPickup( CBasePlayer *pPhysGunUser, PhysGunPickup_t r
 	m_flNextBlipTime = gpGlobals->curtime + FRAG_GRENADE_BLIP_FAST_FREQUENCY;
 	m_bHasWarnedAI = true;
 #else
-	if( IsX360() )
+	if( IsPC() )
 	{
 		// Give 'em a couple of seconds to aim and throw. 
 		SetTimer( 2.0f, 1.0f);

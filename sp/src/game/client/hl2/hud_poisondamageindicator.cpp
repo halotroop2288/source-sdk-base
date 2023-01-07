@@ -44,7 +44,7 @@ private:
 	virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
 
 private:
-	CPanelAnimationVar( vgui::HFont, m_hTextFont, "TextFont", "Default" );
+	CPanelAnimationVar( vgui::HFont, m_hTextFont, "TextFont", "DefaultHUD" );
 	CPanelAnimationVar( Color, m_TextColor, "TextColor", "FgColor" );
 	CPanelAnimationVarAliasType( float, text_xpos, "text_xpos", "8", "proportional_float" );
 	CPanelAnimationVarAliasType( float, text_ypos, "text_ypos", "8", "proportional_float" );

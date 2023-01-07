@@ -85,7 +85,7 @@ void CAchievementNotificationPanel::PerformLayout( void )
 	SetBgColor( Color( 0, 0, 0, 0 ) );
 	m_pLabelHeading->SetBgColor( Color( 0, 0, 0, 0 ) );
 	m_pLabelTitle->SetBgColor( Color( 0, 0, 0, 0 ) );
-	m_pPanelBackground->SetBgColor( Color( 62,70,55, 200 ) );
+	m_pPanelBackground->SetBgColor(Color(0, 0, 0, 156));
 }
 
 //-----------------------------------------------------------------------------
@@ -101,45 +101,39 @@ void CAchievementNotificationPanel::FireGameEvent( IGameEvent * event )
 		int iMax = event->GetInt( "max_val" );
 		wchar_t szLocalizedName[256]=L"";
 
-		if ( IsPC() )
-		{
-			// shouldn't ever get achievement progress if steam not running and user logged in, but check just in case
-			if ( !steamapicontext->SteamUserStats() )
-			{				
-				Msg( "Steam not running, achievement progress notification not displayed\n" );
-			}
-			else 
-			{
-				// use Steam to show achievement progress UI
-				steamapicontext->SteamUserStats()->IndicateAchievementProgress( pchName, iCur, iMax );
-			}
+		// shouldn't ever get achievement progress if steam not running and user logged in, but check just in case
+		if ( !steamapicontext->SteamUserStats() )
+		{				
+			Msg( "Steam not running, achievement progress notification not displayed\n" );
 		}
 		else 
 		{
-			// on X360 we need to show our own achievement progress UI
+			// use Steam to show achievement progress UI
+			steamapicontext->SteamUserStats()->IndicateAchievementProgress( pchName, iCur, iMax );
+		}
 
-			const wchar_t *pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME_FROM_STR( pchName );
-			Assert( pchLocalizedName );
-			if ( !pchLocalizedName || !pchLocalizedName[0] )
-				return;
-			Q_wcsncpy( szLocalizedName, pchLocalizedName, sizeof( szLocalizedName ) );
+		// on X360 we need to show our own achievement progress UI
+		const wchar_t *pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME_FROM_STR( pchName );
+		Assert( pchLocalizedName );
+		if ( !pchLocalizedName || !pchLocalizedName[0] )
+			return;
+		Q_wcsncpy( szLocalizedName, pchLocalizedName, sizeof( szLocalizedName ) );
 
-			// this is achievement progress, compose the message of form: "<name> (<#>/<max>)"
-			wchar_t szFmt[128]=L"";
-			wchar_t szText[512]=L"";
-			wchar_t szNumFound[16]=L"";
-			wchar_t szNumTotal[16]=L"";
-			_snwprintf( szNumFound, ARRAYSIZE( szNumFound ), L"%i", iCur );
-			_snwprintf( szNumTotal, ARRAYSIZE( szNumTotal ), L"%i", iMax );
+		// this is achievement progress, compose the message of form: "<name> (<#>/<max>)"
+		wchar_t szFmt[128]=L"";
+		wchar_t szText[512]=L"";
+		wchar_t szNumFound[16]=L"";
+		wchar_t szNumTotal[16]=L"";
+		_snwprintf( szNumFound, ARRAYSIZE( szNumFound ), L"%i", iCur );
+		_snwprintf( szNumTotal, ARRAYSIZE( szNumTotal ), L"%i", iMax );
 
-			const wchar_t *pchFmt = g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress_Fmt" );
-			if ( !pchFmt || !pchFmt[0] )
-				return;
+		const wchar_t *pchFmt = g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress_Fmt" );
+		if ( !pchFmt || !pchFmt[0] )
+			return;
 			Q_wcsncpy( szFmt, pchFmt, sizeof( szFmt ) );
 
-			g_pVGuiLocalize->ConstructString( szText, sizeof( szText ), szFmt, 3, szLocalizedName, szNumFound, szNumTotal );
-			AddNotification( pchName, g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress" ), szText );
-		}
+		g_pVGuiLocalize->ConstructString( szText, sizeof( szText ), szFmt, 3, szLocalizedName, szNumFound, szNumTotal );
+		AddNotification( pchName, g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress" ), szText );
 	}
 }
 
@@ -220,7 +214,7 @@ void CAchievementNotificationPanel::ShowNextNotification()
 	// don't let it be insanely wide
 	iTextWidth = MIN( iTextWidth, XRES( 300 ) );
 	int iIconWidth = m_pIcon->GetWide();
-	int iSpacing = XRES( 10 );
+	int iSpacing = XRES( 4 );
 	int iPanelWidth = iSpacing + iIconWidth + iSpacing + iTextWidth + iSpacing;
 	int iPanelX = GetWide() - iPanelWidth;
 	int iIconX = iPanelX + iSpacing;
@@ -241,11 +235,40 @@ void CAchievementNotificationPanel::SetXAndWide( Panel *pPanel, int x, int wide 
 {
 	int xCur, yCur;
 	pPanel->GetPos( xCur, yCur );
-	pPanel->SetPos( x, yCur );
+
+	//STAVAAS Res
+
+//480p
+#ifdef _X360UI480p
+	pPanel->SetPos( x - 41, yCur );
+#endif
+
+//720p
+#ifdef _X360UI720p
+	pPanel->SetPos( x - 82, yCur );
+#endif
+
+//1080p
+#ifdef _X360UI1080p
+	pPanel->SetPos( x - 110, yCur );
+#endif
+
+//1440p
+#ifdef _X360UI1440p
+	pPanel->SetPos( x - 165, yCur );
+#endif
+
+//2160p
+#ifdef _X360UI2160p
+	pPanel->SetPos( x - 220, yCur );
+#endif
+
+
+
 	pPanel->SetWide( wide );
 }
 
-CON_COMMAND_F( achievement_notification_test, "Test the hud notification UI", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY )
+CON_COMMAND_F( achievement_notification_test, "Test the hud notification UI", FCVAR_CHEAT )
 {
 	static int iCount=0;
 

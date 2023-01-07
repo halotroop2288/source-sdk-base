@@ -1177,7 +1177,6 @@ void ListPanel::CleanupItem( FastSortListPanelItem *data )
 //-----------------------------------------------------------------------------
 void ListPanel::RemoveItem(int itemID)
 {
-#ifdef _X360
 	bool renavigate = false;
 	if(HasFocus())
 	{
@@ -1190,7 +1189,6 @@ void ListPanel::RemoveItem(int itemID)
 			}
 		}
 	}
-#endif
 
 	FastSortListPanelItem *data = (FastSortListPanelItem*) m_DataItems[itemID];
 	if (!data)
@@ -1219,12 +1217,10 @@ void ListPanel::RemoveItem(int itemID)
 	CleanupItem( data );
 	InvalidateLayout();
 
-#ifdef _X360
 	if(renavigate)
 	{
 		NavigateTo();
 	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1250,12 +1246,10 @@ void ListPanel::RemoveAll()
 
 	InvalidateLayout();
 
-#ifdef _X360
 	if(HasFocus())
 	{
 		NavigateTo();
 	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -3263,7 +3257,6 @@ bool ListPanel::IsInEditMode()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-#ifdef _X360
 void ListPanel::NavigateTo()
 {
 	BaseClass::NavigateTo();
@@ -3280,4 +3273,3 @@ void ListPanel::NavigateTo()
 		}
 	}
 }
-#endif

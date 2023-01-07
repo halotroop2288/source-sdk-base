@@ -279,9 +279,9 @@ void Slider::ApplySchemeSettings(IScheme *pScheme)
 	m_TickColor = pScheme->GetColor( "Slider.TextColor", GetFgColor() );
 	m_TrackColor = pScheme->GetColor( "Slider.TrackColor", GetFgColor() );
 
-#ifdef _X360
+//#ifdef _X360
 	m_DepressedBgColor = GetSchemeColor("Slider.NobFocusColor", pScheme);
-#endif
+//#endif
 
 	m_DisabledTextColor1 = pScheme->GetColor( "Slider.DisabledTextColor1", GetFgColor() );
 	m_DisabledTextColor2 = pScheme->GetColor( "Slider.DisabledTextColor2", GetFgColor() );
@@ -516,12 +516,12 @@ void Slider::DrawNob()
 	int wide,tall;
 	GetTrackRect( x, y, wide, tall );
 	Color col = GetFgColor();
-#ifdef _X360
+//#ifdef _X360
 	if(HasFocus())
 	{
 		col = m_DepressedBgColor;
 	}
-#endif
+//#endif
 	surface()->DrawSetColor(col);
 
 	int nobheight = 16;
@@ -821,7 +821,7 @@ void Slider::OnMouseDoublePressed(MouseCode code)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-#ifdef _X360
+//#ifdef _X360
 void Slider::OnKeyCodePressed(KeyCode code)
 {
 	switch ( GetBaseButtonCode( code ) )
@@ -841,7 +841,7 @@ void Slider::OnKeyCodePressed(KeyCode code)
 		break;
 	}
 }
-#endif
+//#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Handle key presses

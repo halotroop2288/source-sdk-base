@@ -237,7 +237,7 @@ void CHudAmmo::UpdateVehicleAmmo( C_BasePlayer *player, IClientVehicle *pVehicle
 		}
 		else
 		{
-			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponDoesNotUseClips");
+			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponVehicleDoesNotUseClips");
 			SetShouldDisplaySecondaryValue(false);
 		}
 
@@ -475,15 +475,22 @@ protected:
 
 		if ( m_hCurrentActiveWeapon != wpn )
 		{
-			if ( wpn->UsesSecondaryAmmo() )
+			
+			if (wpn->UsesClipsForAmmo1())
+			{
+				SetShouldDisplaySecondaryValue(true);
+				g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponUsesClips");
+			}
+			else
+			{
+				g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponDoesNotUseClips");
+				SetShouldDisplaySecondaryValue(false);
+			}
+			
+			if (wpn->UsesSecondaryAmmo())
 			{
 				// we've changed to a weapon that uses secondary ammo
 				g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponUsesSecondaryAmmo");
-			}
-			else 
-			{
-				// we've changed away from a weapon that uses secondary ammo
-				g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("WeaponDoesNotUseSecondaryAmmo");
 			}
 			m_hCurrentActiveWeapon = wpn;
 			
